@@ -1,12 +1,40 @@
 ---
 - name:  Generate CSR
   hosts:  localhost
+  gather_facts:  False
   become:  true
 
   tasks:
-    - name: Generate CSR
+    - name:  Enable EPEL repository
+      yum:
+        name:  "http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
+        state:  present
+
+    - name:  Install python-pip
+      yum:
+        name:  python-pip
+        state:  present
+
+    - name:  Install python-wheel
+      yum:
+        name:  python-wheel
+        state:  present
+
+    - name:  Install pyopenssl
+      pip:
+        name:  pyopenssl
+
+    - name:  Create directory
+      file:
+        path:  /var/tmp/trey
+        state:  directory
+
+    - name:  Generate private key
+      openssl_privatekey:
+        path:  /var/tmp/trey/trey.com.pem
+
+    - name:  Generate CSR
       openssl_csr:
-        commonName: www.happyfeet.com
-        countryName:  US
-        path:  /var/tmp/treyssl/csr/www.happyfeet.com.csr
-        privatekey_path:  /var/tmp/treyssl/private/www.happyfeet.com.pem
+        path: /var/tmp/trey/www.trey.com.csr
+        privatekey_path: /var/tmp/trey/trey.com.pem
+        commonName: www.trey.com
