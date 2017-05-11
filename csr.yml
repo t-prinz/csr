@@ -1,0 +1,12 @@
+---
+- name:  Generate CSR
+  hosts:  localhost
+  become:  true
+
+  tasks:
+    - name: Generate CSR
+      openssl_csr:
+        commonName: www.happyfeet.com
+        countryName:  US
+        path:  /var/tmp/treyssl/csr/www.happyfeet.com.csr
+        privatekey_path:  /var/tmp/treyssl/private/www.happyfeet.com.pem
