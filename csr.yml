@@ -1,6 +1,6 @@
 ---
 - name:  Generate CSR
-  hosts:  localhost
+  hosts:  all
   gather_facts:  False
 
   tasks:
